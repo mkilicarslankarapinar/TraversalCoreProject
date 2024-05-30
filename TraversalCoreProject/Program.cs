@@ -1,4 +1,8 @@
+using BusinessLayer.Abstract;
+using BusinessLayer.Concrete;
+using DataAccessLayer.Abstract;
 using DataAccessLayer.Concrete;
+using DataAccessLayer.EntityFramework;
 using EntityLayer.Concrete;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
@@ -13,6 +17,15 @@ builder.Services.AddIdentity<AppUser, AppRole>().AddEntityFrameworkStores<Contex
     AddErrorDescriber<CustomIdentityValidator>().
     AddTokenProvider<DataProtectorTokenProvider<AppUser>>(TokenOptions.DefaultProvider).
     AddEntityFrameworkStores<Context>();// Tek sefer çaðýrýldý.
+
+
+//Dependency Injection Configure
+builder.Services.AddScoped<ICommentService, CommentManager>();
+builder.Services.AddScoped<ICommentDal, EfCommentDal>();
+builder.Services.AddScoped<IDestinationService, DestinationManager>();
+builder.Services.AddScoped<IDestinationDal, EfDestinationDal>();
+builder.Services.AddScoped<IAppUserService, AppUserManager>();
+builder.Services.AddScoped<IAppUserDal, EfAppUserDal>();
 
 // Add services to the container.
 builder.Services.AddControllersWithViews(config =>
